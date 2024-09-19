@@ -32,7 +32,6 @@ Comprehensive Information"
 ## Data preprocess
 
 1. Use Fast Map Matching ([FMM](https://github.com/cyang-kth/fmm)) to get road-based trajectories.
-2. 
-
+2. Compute trajectory similarity by this website [](https://github.com/bguillouet/traj-dist).
 
 The code is coming soon...
