@@ -31,7 +31,7 @@ Comprehensive Information"
 
 ## Data preprocess
 
-1. Use Fast Map Matching[FMM](https://github.com/cyang-kth/fmm) to get road-based trajectories.
+1. Use Fast Map Matching ([FMM](https://github.com/cyang-kth/fmm)) to get road-based trajectories.
 2. 
 
 
