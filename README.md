@@ -29,4 +29,10 @@ Comprehensive Information"
 
 *transformers*==4.33.1
 
+## Data preprocess
+
+1. Use Fast Map Matching[FMM](https://github.com/cyang-kth/fmm) to get road-based trajectories.
+2. 
+
+
 The code is coming soon...
