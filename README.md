@@ -44,7 +44,7 @@ For exmaple:
 
 - `./data/porto/traj/...` is the raw sampled trajectory data.
 
-- `./data/porto/...` is the pre-processed data used for training and downstream tasks. After map matching [FMM](https://github.com/cyang-kth/fmm) you can run `./utils/road_aware_masking.py` to get road-aware-mask.
+- `./data/porto/...` is the pre-processed data used for training and downstream tasks. After map matching [FMM](https://github.com/cyang-kth/fmm), you can run `./utils/road_aware_masking.py` to get road-aware-mask.
 
 ## Pre-Train
 
