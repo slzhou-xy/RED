@@ -42,7 +42,7 @@ For exmaple:
 
 - `./data/porto/rn/...` is the road network data.
 
-- `./data/porto/traj/...` is the raw sampled trajectory data.
+- `./data/porto/traj/...` is the trajectory data.
 
 - `./data/porto/...` is the pre-processed data used for training and downstream tasks. After map matching [FMM](https://github.com/cyang-kth/fmm), you can run `./utils/road_aware_masking.py` to get road-aware-mask.
 
@@ -58,7 +58,7 @@ python main.py --exp_id <set_exp_id> --dataset porto --device 0 --lr 1e-4 --batc
 python main.py --exp_id <set_exp_id> --dataset cd --device 0 --lr 1e-4 --batch_size 32 --epochs 5 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
 
 # Rome
-python main.py --exp_id <set_exp_id> --dataset rome --device 0 --lr 1e-4 --batch_size 32 --epochs 30 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
+python main.py --exp_id <set_exp_id> --dataset rome --device 0 --lr 2e-4 --batch_size 32 --epochs 30 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
 ```
 
  ## Fine-tune
@@ -82,13 +82,13 @@ python eta_task.py --exp_id <same as pretraning> --dataset rome --gpu_id 0 --lr 
 
 ```shell
 # Porto
-python cls_task.py --exp_id <same as pretraning> --dataset porto --gpu_id 0 --lr 1e-3 --batch_size 64 --epochs 30
+python cls_task.py --exp_id <same as pretraning> --dataset porto --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 
 # Chengdu
-python cls_task.py --exp_id <same as pretraning> --dataset cd --gpu_id 0 --lr 1e-3 --batch_size 64 --epochs 30
+python cls_task.py --exp_id <same as pretraning> --dataset cd --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 
 # Rome
-python cls_task.py --exp_id <same as pretraning> --dataset rome --gpu_id 0 --lr 1e-3 --batch_size 64 --epochs 30
+python cls_task.py --exp_id <same as pretraning> --dataset rome --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 ```
 
 (3) Trajectory Similarity Computation
