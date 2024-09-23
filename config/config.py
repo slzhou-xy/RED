@@ -27,7 +27,6 @@ def get_config():
     parser.add_argument('--warmup_steps', default=5, type=int)
     parser.add_argument('--betas', default='(0.9, 0.95)', type=str)
     parser.add_argument('--weight_decay', default=0.05, type=float)
-    parser.add_argument('--scheduler', default='warmupcosine', type=str)
 
     # graph
     parser.add_argument('--g_depths', default=3, type=int)
@@ -50,12 +49,12 @@ def get_config():
     parser.add_argument('--dec_num_heads', default=8, type=int)
     parser.add_argument('--dec_emb_dropout', default=0.1, type=float)
     parser.add_argument('--dec_tfm_dropout', default=0.1, type=float)
-    
+
     parser.add_argument('--lambda1', default=0.1, type=float)
     parser.add_argument('--lambda2', default=0.5, type=float)
 
     # device
-    parser.add_argument('--device', default='cuda:0', type=str)
+    parser.add_argument('--device', default='cuda:2', type=str)
     args = parser.parse_args()
     config = vars(args)
     return config

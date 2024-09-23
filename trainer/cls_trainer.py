@@ -28,6 +28,7 @@ class ClsTrainer:
         self.epochs = config['epochs']
         self.clip = config['clip']
         self.num_user = config['user_size']
+        self.lambda2 = config['lambda2']
 
         # early stop
         self.early_stop = config['early_stop']
@@ -48,19 +49,19 @@ class ClsTrainer:
             weight_decay=0.05
         )
 
-        self.scheduler = CosineLRScheduler(optimizer=self.optimizer, t_initial=self.epochs, warmup_t=5, warmup_lr_init=1e-6)
+        self.scheduler = CosineLRScheduler(optimizer=self.optimizer, t_initial=self.epochs, warmup_t=10, warmup_lr_init=1e-6)
         self.loss_fn = nn.CrossEntropyLoss(ignore_index=0)
         self.save_path = os.path.join('checkpoints', config['dataset'], config['exp_id'], 'multi_cls')
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
-        logger.add(f'{self.save_path}/results.log')
+        logger.add(f'{self.save_path}/results.log', mode='w')
 
     def iteration(self, epoch, dataloader, iteration_type='train'):
         losses = []
         pbar = tqdm(dataloader)
 
         for batch_data in pbar:
-            enc_data, id_y, y = batch_data
+            enc_data, id_y = batch_data
             node_feature = torch.tensor(self.node_feature, dtype=torch.float32, requires_grad=False, device=self.device)
             edge_index = torch.tensor(self.edge_index, dtype=torch.long, requires_grad=False, device=self.device)
 
@@ -69,15 +70,15 @@ class ClsTrainer:
 
             if iteration_type == 'train':
                 self.optimizer.zero_grad()
-                pred, logits = self.model(node_feature, edge_index, enc_data)
+                pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 loss = self.loss_fn(pred, id_y)
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.clip)
                 self.optimizer.step()
             else:
                 with torch.no_grad():
-                    pred, logits = self.model(node_feature, edge_index, enc_data)
-                    loss = self.ce(pred, id_y)
+                    pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
+                    loss = self.loss_fn(pred, id_y)
             pbar.set_description('[{} Epoch {}/{}: loss: %f]'.format(iteration_type, str(epoch), str(self.epochs)) % loss)
             losses.append(loss.item())
         return np.array(losses).mean()
@@ -98,7 +99,7 @@ class ClsTrainer:
                 min_loss = eval_loss
                 best_epoch = epoch
 
-            torch.save(self.model.pretraining_model.state_dict(), f'{self.save_path}/cls_{epoch}.pt')
+            torch.save(self.model.state_dict(), f'{self.save_path}/cls_{epoch}.pt')
             self.scheduler.step(epoch + 1)
             train_losses.append(train_loss)
             eval_losses.append(eval_loss)
@@ -120,14 +121,14 @@ class ClsTrainer:
             preds = []
             indices = []
             for batch_data in pbar:
-                enc_data, id_y, y = batch_data
+                enc_data, id_y = batch_data
                 node_feature = torch.tensor(self.node_feature, dtype=torch.float32, requires_grad=False, device=self.device)
                 edge_index = torch.tensor(self.edge_index, dtype=torch.long, requires_grad=False, device=self.device)
 
                 enc_data = [data.to(self.device) for data in enc_data]
                 id_y = id_y.to(self.device)
 
-                pred, logits = self.model(node_feature, edge_index, enc_data)
+                pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 indices.append(F.log_softmax(pred, dim=-1).topk(5).indices.cpu().detach().numpy())
                 labels.append(id_y.cpu().detach().numpy())
                 preds.append(pred.cpu().detach().numpy())
@@ -140,4 +141,3 @@ class ClsTrainer:
 
             micro_f1, macro_f1 = F1(labels, preds, self.num_user)
             logger.info(f'micro_f1: {micro_f1}, macro_f1: {macro_f1}, recall@5: {recall_5}')
-            return micro_f1, macro_f1, recall_5

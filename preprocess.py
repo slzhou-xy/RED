@@ -177,11 +177,9 @@ class TrajPreprocess:
         start_id = self.edge_rn['from_edge_id'].to_numpy()
         end_id = self.edge_rn['to_edge_id'].to_numpy()
 
-        # 3 for sep, start, and end, but sep (position 0) is not used in the model
         start_id += 3
         end_id += 3
 
-        # 3 for sep, start, and end, but sep (position 0) is not used in the model
         for i in range(3, size):
             G[1, i] = 1
 

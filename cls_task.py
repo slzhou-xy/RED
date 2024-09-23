@@ -43,13 +43,12 @@ edge_index = traj_preprocess.get_graph()
 config['epochs'] = 30
 config['clip'] = 1.0
 config['device'] = 'cuda:1'
-config['lr'] = 1e-3
+config['lr'] = 1e-4
 config['vocab_size'] = vocab.vocab_size
 config['user_size'] = vocab.user_num
 config['highway_size'] = traj_preprocess.edge['highway_type'].nunique() + 1
 config['fea_size'] = node_feature.shape[1]
 config['batch_size'] = 64
-config['exp_id'] = os.path.join('checkpoints', data_name, config['exp_id'], 'cls')
 
 
 if data_name == 'cd' or data_name == 'big_cd':
@@ -72,7 +71,6 @@ else:
 
 if config['dataset'] == 'rome':
     pretraining_model_path = os.path.join('checkpoints', data_name, config['exp_id'], 'pretraining', 'pretraining_30.pt')
-    'checkpoints/pretraining/gpt{}_128_1e-4_6_6.pt'.format(str(9))
 elif config['dataset'] == 'cd':
     pretraining_model_path = os.path.join('checkpoints', data_name, config['exp_id'], 'pretraining', 'pretraining_20.pt')
 elif config['dataset'] == 'big_cd':

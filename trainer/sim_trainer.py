@@ -42,7 +42,7 @@ class SimTrainer:
         self.save_path = os.path.join('checkpoints', config['dataset'], config['exp_id'], 'compute_sim')
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
-        logger.add(f'{self.save_path}/results.log')
+        logger.add(f'{self.save_path}/results.log', mode='w')
 
     def test(self):
         self.model.eval()

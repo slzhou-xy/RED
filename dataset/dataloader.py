@@ -38,7 +38,8 @@ class TrajDataLoader:
         key_user_id, key_traj, _, key_temporal_vec, key_temporal_mat, key_dis_mat, key_highway = zip(*key_data)
 
         key_idx = [[k for k, segment in enumerate(full_mask_traj[i]) if segment != -1] for i in range(bz)]
-
+        # 0123456789exxxxxx
+        # s0123456789exxxxx
         key_idx = [idx + [idx[-1] + 1] for idx in key_idx]
         mask_idx = [[k for k, segment in enumerate(full_mask_traj[i]) if segment == -1] for i in range(bz)]
 
@@ -59,7 +60,9 @@ class TrajDataLoader:
             mask_idx[i] += [mask_padding_start_idx + k for k in range(mask_padding_len)]
 
         max_len = max_key_len + max_mask_len
-
+        # 012345678e
+        # s012345678e
+        # encoder input, only key data
         key_traj_x = torch.zeros(size=(bz, max_key_len + 1), dtype=torch.long)
         key_highway_x = torch.zeros_like(key_traj_x, dtype=torch.long)
         key_temporal_x = torch.zeros(size=(bz, max_key_len + 1, 64), dtype=torch.float)
@@ -69,6 +72,7 @@ class TrajDataLoader:
         key_dis_mat_x = torch.zeros(size=(bz, max_key_len + 1, max_key_len + 1), dtype=torch.float32)
         y1 = torch.zeros_like(key_idx_x, dtype=torch.long)
 
+        # decoder input, only mask data
         mask_traj_x = torch.zeros(size=(bz, max_mask_len), dtype=torch.long)
 
         full_highway_x = torch.zeros(size=(bz, max_len), dtype=torch.long)
@@ -80,6 +84,7 @@ class TrajDataLoader:
         y2 = torch.zeros(size=(bz, max_len), dtype=torch.long)  # decoder label，注意长度
 
         for i in range(bz):
+            # encoder
             cur_key_end = key_len[i]
             key_traj_x[i, 1:cur_key_end] = torch.tensor(key_traj[i], dtype=torch.long)
             key_traj_x[i, 0] = vocab.start_index
@@ -94,8 +99,9 @@ class TrajDataLoader:
             key_user_id_x[i, 1:cur_key_end] = torch.tensor(key_user_id[i], dtype=torch.long)
 
             y1[i, pre_len:cur_key_end - 1] = torch.tensor(key_traj[i][pre_len:], dtype=torch.long)
-            y1[i, cur_key_end - 1] = vocab.sep_index
+            y1[i, cur_key_end - 1] = vocab.sep_index 
 
+            # decoder
             cur_mask_end = mask_len[i]
             mask_traj_x[i, :cur_mask_end] = torch.tensor([vocab.mask_index] * cur_mask_end, dtype=torch.long)
             mask_idx_x[i] = torch.tensor(mask_idx[i], dtype=torch.long)
@@ -110,7 +116,6 @@ class TrajDataLoader:
             full_user_id_x[i, :full_end] = torch.tensor(full_user_id[i], dtype=torch.long)
 
             y2[i, :full_end] = torch.tensor(full_traj[i], dtype=torch.long)
-            y2[i, full_end] = vocab.sep_index
 
         key_len = [kl + 1 for kl in key_len]
         key_padding_mask = padding_mask_fn(torch.tensor(key_len, dtype=torch.int16), max_len=max_key_len + 1)

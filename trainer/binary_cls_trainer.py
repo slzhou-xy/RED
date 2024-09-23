@@ -27,6 +27,7 @@ class BinaryClsTrainer:
         self.epochs = config['epochs']
         self.clip = config['clip']
         self.num_user = config['user_size']
+        self.lambda2 = config['lambda2']
 
         # early stop
         self.early_stop = config['early_stop']
@@ -47,13 +48,13 @@ class BinaryClsTrainer:
             weight_decay=0.05
         )
 
-        self.scheduler = CosineLRScheduler(optimizer=self.optimizer, t_initial=self.epochs, warmup_t=5, warmup_lr_init=1e-6)
+        self.scheduler = CosineLRScheduler(optimizer=self.optimizer, t_initial=self.epochs, warmup_t=10, warmup_lr_init=1e-6)
         self.loss_fn = nn.BCEWithLogitsLoss()
 
         self.save_path = os.path.join('checkpoints', config['dataset'], config['exp_id'], 'binary_cls')
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
-        logger.add(f'{self.save_path}/results.log')
+        logger.add(f'{self.save_path}/results.log', mode='w')
 
     def iteration(self, epoch, dataloader, iteration_type='train'):
         losses = []
@@ -70,7 +71,7 @@ class BinaryClsTrainer:
             if iteration_type == 'train':
                 self.optimizer.zero_grad()
 
-                pred, logits = self.model(node_feature, edge_index, enc_data)
+                pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 loss = self.loss_fn(pred.reshape(-1), id_y.float())
 
                 loss.backward()
@@ -78,7 +79,7 @@ class BinaryClsTrainer:
                 self.optimizer.step()
 
             else:
-                pred, logits = self.model(node_feature, edge_index, enc_data)
+                pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 loss = self.ce1(pred.reshape(-1), id_y.float())
             pbar.set_description('[{} Epoch {}/{}: loss: %f]'.format(iteration_type, str(epoch), str(self.epochs)) % loss)
             losses.append(loss.item())
@@ -102,7 +103,7 @@ class BinaryClsTrainer:
                 min_loss = eval_loss
                 best_epoch = epoch
 
-            torch.save(self.model.pretraining_model.state_dict(), f'{self.save_path}/cls_{epoch}.pt')
+            torch.save(self.model.state_dict(), f'{self.save_path}/cls_{epoch}.pt')
             self.scheduler.step(epoch + 1)
             train_losses.append(train_loss)
             eval_losses.append(eval_loss)
@@ -131,7 +132,7 @@ class BinaryClsTrainer:
                 enc_data = [data.to(self.device) for data in enc_data]
                 id_y = id_y.to(self.device)
 
-                pred, logits = self.model(node_feature, edge_index, enc_data)
+                pred, logits = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 labels.append(id_y.cpu().detach().numpy())
                 preds.append(F.sigmoid(pred).cpu().detach().numpy())
 

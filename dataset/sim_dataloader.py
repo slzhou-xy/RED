@@ -42,6 +42,7 @@ class SimTrajDataLoader:
         traj_len = [len(t) for t in traj]
         max_traj_len = max(traj_len) + 2
 
+        # tensor data
         traj_x = torch.zeros(size=(bz, max_traj_len), dtype=torch.long)
         highway_x = torch.zeros_like(traj_x, dtype=torch.long)
         user_id_x = torch.zeros_like(traj_x, dtype=torch.long)

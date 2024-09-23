@@ -33,6 +33,7 @@ class BinaryClsTrajDataLoader:
         self.num_workers = config['num_workers']
 
     def _collate_fn(self, batch_data, vocab, type, pre_len=0):
+        # 和simple是一样，只是输出取的embedding位置不一样
         bz = len(batch_data)
         vflag = [d[1] for d in batch_data]
         batch_data = [d[0] for d in batch_data]
@@ -47,8 +48,6 @@ class BinaryClsTrajDataLoader:
         traj_x = torch.zeros(size=(bz, max_traj_len), dtype=torch.long)
         highway_x = torch.zeros_like(traj_x, dtype=torch.long)
         user_id_x = torch.zeros_like(traj_x, dtype=torch.long)
-
-        y = torch.zeros(size=(bz, max_traj_len - 1), dtype=torch.long)
 
         temporal_x = torch.zeros(size=(bz, max_traj_len, 64))
         temporal_mat_x = torch.zeros(size=(bz, max_traj_len, max_traj_len))
@@ -70,9 +69,6 @@ class BinaryClsTrajDataLoader:
             temporal_mat_x[i, 1:end + 1, 1:end + 1] = torch.tensor(temporal_mat[i], dtype=float)
             dis_mat_x[i, 1:end + 1, 1:end + 1] = torch.tensor(dis_mat[i], dtype=float)
 
-            y[i, :end] = torch.tensor(traj[i], dtype=torch.long)
-            y[i, end] = vocab.sep_index
-
         # padding数据
         traj_len = [tl + 2 for tl in traj_len]
         padding_mask = padding_mask_fn(torch.tensor(traj_len, dtype=torch.int16), max_len=max_traj_len)
@@ -89,7 +85,7 @@ class BinaryClsTrajDataLoader:
 
         data = [traj_x, temporal_x, user_id_x, mask, end_idx, idx_without_end, temporal_mat_x, dis_mat_x, highway_x]
 
-        return data, id_y, y
+        return data, id_y
 
     def get_dataloader(self, data, vflag, vocab, type):
         dataset = TrajDataSet(data=data, vflag=vflag)

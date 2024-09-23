@@ -46,7 +46,6 @@ config['user_size'] = vocab.user_num
 config['highway_size'] = traj_preprocess.edge['highway_type'].nunique() + 1
 config['fea_size'] = node_feature.shape[1]
 config['batch_size'] = 64
-# config['exp_id'] = os.path.join('checkpoints', data_name, config['exp_id'], 'eta')
 
 traj_dataloader = ETADataLoader(config)
 train_dataloader = traj_dataloader.get_dataloader(train_data, vocab, 'train')

@@ -22,8 +22,6 @@ class REDTrainer:
         self.weight_decay = config['weight_decay']
         self.device = config['device']
         self.epochs = config['epochs']
-        self.warmup_steps = config['warmup_steps']
-        self.scheduler = config['scheduler']
         self.dim = config['enc_embed_dim']
         self.lambda1 = config['lambda1']
         self.lambda2 = config['lambda2']
@@ -40,7 +38,7 @@ class REDTrainer:
                                            betas=self.betas)
 
         self.loss_fn = nn.NLLLoss(ignore_index=0)
-        self.save_path = os.path.join('checkpoints', config['data_name'], config['exp_id'], 'pretraining')
+        self.save_path = os.path.join('checkpoints', config['dataset'], config['exp_id'], 'pretraining')
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
 

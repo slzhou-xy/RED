@@ -1,7 +1,5 @@
 import torch
 from torch.utils.data import DataLoader, Dataset
-import numpy as np
-from datetime import datetime
 
 
 class TrajDataSet(Dataset):
@@ -47,8 +45,6 @@ class ClsTrajDataLoader:
         highway_x = torch.zeros_like(traj_x, dtype=torch.long)
         user_id_x = torch.zeros_like(traj_x, dtype=torch.long)
 
-        y = torch.zeros(size=(bz, max_traj_len - 1), dtype=torch.long)
-
         temporal_x = torch.zeros(size=(bz, max_traj_len, 64))
         temporal_mat_x = torch.zeros(size=(bz, max_traj_len, max_traj_len))
         dis_mat_x = torch.zeros(size=(bz, max_traj_len, max_traj_len))
@@ -69,9 +65,6 @@ class ClsTrajDataLoader:
             temporal_mat_x[i, 1:end + 1, 1:end + 1] = torch.tensor(temporal_mat[i], dtype=float)
             dis_mat_x[i, 1:end + 1, 1:end + 1] = torch.tensor(dis_mat[i], dtype=float)
 
-            y[i, :end] = torch.tensor(traj[i], dtype=torch.long)
-            y[i, end] = vocab.sep_index
-
         traj_len = [tl + 2 for tl in traj_len]
         padding_mask = padding_mask_fn(torch.tensor(traj_len, dtype=torch.int16), max_len=max_traj_len)
         end_idx = torch.sum(padding_mask, dim=1) - 1
@@ -87,7 +80,7 @@ class ClsTrajDataLoader:
 
         data = [traj_x, temporal_x, user_id_x, mask, end_idx, idx_without_end, temporal_mat_x, dis_mat_x, highway_x]
 
-        return data, id_y, y
+        return data, id_y
 
     def get_dataloader(self, data, vocab, type):
         dataset = TrajDataSet(data=data)

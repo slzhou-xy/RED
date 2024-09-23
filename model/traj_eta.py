@@ -28,14 +28,11 @@ class TrajETA(nn.Module):
             vocab_size=config['vocab_size'],
             user_size=config['user_size']
         )
-        
         self.pretraining_model.load_state_dict(torch.load(path))
         self.pre_linear = nn.Linear(config['dec_embed_dim'], 1)
-        torch.nn.init.xavier_uniform_(self.pre_linear.weight)
-        torch.nn.init.constant_(self.pre_linear.bias, 0)
 
     def forward(self, node_feature, edge_index, enc_data, lambda2):
-        traj_x, temporal_x, user_id_x, mask, end_idx, key_idx_without_end, temporal_mat_x, dis_mat_x, highway_x = enc_data
+        traj_x, temporal_x, user_id_x, mask, end_idx, _, temporal_mat_x, dis_mat_x, highway_x = enc_data
         spe = self.pretraining_model.spe(node_feature, edge_index)
         ce = self.pretraining_model.ce(highway_x)
         ue = self.pretraining_model.ue(user_id_x)
@@ -55,7 +52,5 @@ class TrajETA(nn.Module):
         )
 
         traj_emb = torch.gather(x, dim=1, index=end_idx.view(-1, 1, 1).repeat(1, 1, x.shape[-1])).squeeze(1)
-        x = torch.gather(x, dim=1, index=key_idx_without_end.unsqueeze(-1).repeat(1, 1, x.shape[-1]))
-        logits = self.pretraining_model.task1(x)
 
-        return self.pre_linear(traj_emb), logits
+        return self.pre_linear(traj_emb)

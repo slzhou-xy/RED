@@ -24,6 +24,7 @@ class MultiHeadAttention(nn.Module):
         self.td_mat_bias = nn.Linear(self.mat_dim, 1, bias=True)
 
     def scaled_dot_product_attention(self, Q, K, V, temporal_mat, dis_mat, mask=None, lambda2=0.5):
+        # Calculate attention scores
         attn_scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(self.d_k)
 
         temporal_mat = 1.0 / torch.log(torch.exp(torch.tensor(1.0).to(attn_scores.device)) + temporal_mat)
