@@ -36,7 +36,7 @@ RED is based on Python version 3.10 and PyTorch version 2.0.1. Please make sure 
 
 ## DATA
 
-We conduct our experiments on three trajectory datasets and corresponding road networks, including **Chengdu**, **Porto** and **Rome**. For pravicy, we only provide Porto dataset. To get path trajectory, you can refer to map matching method [FMM](https://github.com/cyang-kth/fmm). To get trajectory similarity, you can refer to this [website](https://github.com/bguillouet/traj-dist). To get detour trajectory, you can refer to [JCLRNT](https://github.com/mzy94/JCLRNT)
+We conduct our experiments on three trajectory datasets and corresponding road networks, including **Chengdu**, **Porto** and **Rome**. To get path trajectory, you can refer to map matching method [FMM](https://github.com/cyang-kth/fmm). To get trajectory similarity, you can refer to this [website](https://github.com/bguillouet/traj-dist). To get detour trajectory, you can refer to [JCLRNT](https://github.com/mzy94/JCLRNT)
 
 For exmaple:
 
