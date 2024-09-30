@@ -69,51 +69,51 @@ We can fine-tune the model for downstream tasks. Note that you need to modify th
 
 ```shell
 # Porto
-python eta_task.py --exp_id <same as pretraning> --dataset porto --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
+python eta_task.py --exp_id <same as pretraining> --dataset porto --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 
 # Chengdu
-python eta_task.py --exp_id <same as pretraning> --dataset cd --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
+python eta_task.py --exp_id <same as pretraining> --dataset cd --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 
 # Rome
-python eta_task.py --exp_id <same as pretraning> --dataset rome --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
+python eta_task.py --exp_id <same as pretraining> --dataset rome --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 ```
 
 (2) Trajectory Classification
 
 ```shell
 # Porto
-python cls_task.py --exp_id <same as pretraning> --dataset porto --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
+python cls_task.py --exp_id <same as pretraining> --dataset porto --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 
 # Chengdu
-python cls_task.py --exp_id <same as pretraning> --dataset cd --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
+python cls_task.py --exp_id <same as pretraining> --dataset cd --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 
 # Rome
-python cls_task.py --exp_id <same as pretraning> --dataset rome --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
+python cls_task.py --exp_id <same as pretraining> --dataset rome --gpu_id 0 --lr 1e-4 --batch_size 64 --epochs 30
 ```
 
 (3) Trajectory Similarity Computation
 
 ```shell
 # Porto
-python sim_task.py --exp_id <same as pretraning> --dataset porto --gpu_id 0
+python sim_task.py --exp_id <same as pretraining> --dataset porto --gpu_id 0
 
 # Chengdu
-python sim_task.py --exp_id <same as pretraning> --dataset cd --gpu_id 0
+python sim_task.py --exp_id <same as pretraining> --dataset cd --gpu_id 0
 
 # Rome
-python sim_task.py --exp_id <same as pretraning> --dataset rome --gpu_id 0
+python sim_task.py --exp_id <same as pretraining> --dataset rome --gpu_id 0
 ```
 
 (4) Most Similar Trajectory Search
 
 ```shell
 # Porto
-python most_sim_task.py --exp_id <same as pretraning> --dataset porto --gpu_id 0
+python most_sim_task.py --exp_id <same as pretraining> --dataset porto --gpu_id 0
 
 # Chengdu
-python most_sim_task.py --exp_id <same as pretraning> --dataset cd --gpu_id 0
+python most_sim_task.py --exp_id <same as pretraining> --dataset cd --gpu_id 0
 
 # Rome
-python most_sim_task.py --exp_id <same as pretraning> --dataset rome --gpu_id 0
+python most_sim_task.py --exp_id <same as pretraining> --dataset rome --gpu_id 0
 ```
 
