@@ -54,7 +54,6 @@ class ETATrainer:
     def iteration(self, epoch, dataloader, iteration_type='train'):
         losses = []
         pbar = tqdm(dataloader)
-        # num_updates = epoch * len(dataloader)
         for batch_data in pbar:
             enc_data, eta = batch_data
             node_feature = torch.tensor(self.node_feature, dtype=torch.float32, requires_grad=False, device=self.device)
@@ -70,7 +69,6 @@ class ETATrainer:
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.clip)
                 self.optimizer.step()
-                # self.scheduler.step_update(num_updates=num_updates)
             else:
                 with torch.no_grad():
                     pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
