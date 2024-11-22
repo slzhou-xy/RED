@@ -1,6 +1,6 @@
 # RED: Effective Trajectory Representation Learning with Comprehensive Information
 
-The pytorch implementation of **VLDB2025** accepted paper "RED: Effective Trajectory Representation Learning with Comprehensive Information"
+**[VLDB2025]** The pytorch implementation of accepted paper "RED: Effective Trajectory Representation Learning with Comprehensive Information"
 
 ## Environment Requirements
 
