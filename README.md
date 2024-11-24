@@ -122,3 +122,6 @@ python most_sim_task.py --exp_id <same as pretraining> --dataset cd --gpu_id 0
 python most_sim_task.py --exp_id <same as pretraining> --dataset rome --gpu_id 0
 ```
 
+### Cite
+
+If you find the paper useful, please cite our paper. ^_^
