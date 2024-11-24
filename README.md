@@ -2,6 +2,11 @@
 
 **[VLDB2025]** The pytorch implementation of accepted paper "RED: Effective Trajectory Representation Learning with Comprehensive Information"
 
+## Framework
+<div align=center>
+<img src="framework.png"/>
+</div>
+
 ## Environment Requirements
 
 RED is based on Python version 3.10 and PyTorch version 2.0.1. Please make sure you have installed Python and PyTorch correctly. Then you can install other dependencies as follows:
