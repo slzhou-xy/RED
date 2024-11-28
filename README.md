@@ -125,3 +125,12 @@ python most_sim_task.py --exp_id <same as pretraining> --dataset rome --gpu_id 0
 ### Cite
 
 If you find the paper useful, please cite our paper. ^_^
+
+```
+@article{zhou2024red,
+  title={RED: Effective Trajectory Representation Learning with Comprehensive Information},
+  author={Zhou, Silin and Shang, Shuo and Chen, Lisi and Jensen, Christian S and Kalnis, Panos},
+  journal={arXiv preprint arXiv:2411.15096},
+  year={2024}
+}
+```
