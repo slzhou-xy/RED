@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore")
 
 config = get_config()
 
-data_path = '/home/zhousilin/Code/zhousilin/RED-vldb/TrajModel_final/data'
+data_path = './data'
 config['data_path'] = data_path
 
 data_name = config['dataset']
