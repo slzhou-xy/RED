@@ -51,6 +51,8 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
         opath = eval(opath_list[i])
         temporal = eval(temporal_list[i])
 
+        # if cpath[0] == cpath[-1]:
+        #     continue
         assert len(opath) == len(temporal)
 
         c_idx = 0
@@ -95,21 +97,27 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
                 mask2.append(i)
             if edge_points[cpath[i]] < average_points:
                 mask3.append(i)
-        
+
         masks = list(set(mask1) & (set(mask2) | set(mask3)))
         masks = list(set(masks))
 
         mask_cpath = cpath.copy()
         for mask in masks:
             mask_cpath[mask] = -1
-        
+
+        short_cpath = []
+        short_temporal = []
+        for i, path in enumerate(mask_cpath):
+            if path != -1:
+                short_cpath.append(path)
+                short_temporal.append(new_temporal[i])
+
         short_cpath_list.append(short_cpath)
         short_temporal_list.append(short_temporal)
         mask_cpath_list.append(mask_cpath)
         new_temporal_list.append(new_temporal)
         new_user_list.append(user_list[i])
         new_cpath_list.append(cpath)
-
 
     new_temporal_list = time_interpolation(new_temporal_list)
 
@@ -143,7 +151,7 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
             short_temporal_list[i] = short_temporal
             short_cpath_list[i] = short_cpath
             mask_cpath_list[i] = mask_cpath
-            
+
     mapping = {user_id: i for i, user_id in enumerate(set(new_user_list))}
     new_user_list = [mapping[user_id] for user_id in new_user_list]
 
