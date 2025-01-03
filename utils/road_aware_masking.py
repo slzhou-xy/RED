@@ -1,36 +1,26 @@
-import numpy as np
-import pandas as pd
-from datetime import datetime
-from collections import Counter
+def time_interpolation(t):
+    start = 0
+    end = 1
 
+    while end != len(t):
+        if t[end] != 0 and t[end - 1] == 0 and t[start] != 0:
+            end_time = datetime.fromtimestamp(t[end])
+            start_time = datetime.fromtimestamp(t[start])
 
-def time_interpolation(mask_time):
-    interpolation_time = []
-    for i, t in enumerate(mask_time):
-        start = 0
-        end = 1
-
-        while end != len(t):
-            if t[end] != 0 and t[end - 1] == 0 and t[start] != 0:
-                end_time = datetime.fromtimestamp(t[end])
-                start_time = datetime.fromtimestamp(t[start])
-
-                gap = end_time - start_time
-                per_gap = gap / (end - start)
-                for k in range(start + 1, end):
-                    t[k] = int((start_time + (k - start) * per_gap).timestamp() + 0.5)
-                if end == len(t) - 1:
-                    break
-                start = end
-                end += 1
-            elif t[end] == 0:
-                end += 1
-            else:
-                start += 1
-                end += 1
-
-        interpolation_time.append(t)
-    return interpolation_time
+            gap = end_time - start_time
+            per_gap = gap / (end - start)
+            for k in range(start + 1, end):
+                t[k] = int((start_time + (k - start) * per_gap).timestamp() + 0.5)
+            if end == len(t) - 1:
+                break
+            start = end
+            end += 1
+        elif t[end] == 0:
+            end += 1
+        else:
+            start += 1
+            end += 1
+    return t
 
 
 def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
@@ -46,7 +36,7 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
     new_user_list = []
     new_cpath_list = []
 
-    for i in range(len(cpath_list)):
+    for i in range(len(cpath_list[:10])):
         cpath = eval(cpath_list[i])
         opath = eval(opath_list[i])
         temporal = eval(temporal_list[i])
@@ -81,9 +71,7 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
             short_cpath.append(cpath[c_idx])
             short_temporal.append(temporal[same_opath_list_idx[flag]])
             c_idx += 1
-        assert len(short_cpath) == len(short_temporal)
         cpath = cpath[:len(new_temporal)]
-        assert len(cpath) == len(new_temporal) == len(mask_cpath)
 
         mask1 = []
         mask2 = []
@@ -103,12 +91,15 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
         for mask in masks:
             mask_cpath[mask] = -1
 
+        new_temporal = time_interpolation(new_temporal)
         short_cpath = []
         short_temporal = []
         for i, path in enumerate(mask_cpath):
             if path != -1:
                 short_cpath.append(path)
                 short_temporal.append(new_temporal[i])
+        assert len(short_cpath) == len(short_temporal)
+        assert len(cpath) == len(new_temporal) == len(mask_cpath)
 
         short_cpath_list.append(short_cpath)
         short_temporal_list.append(short_temporal)
@@ -116,8 +107,6 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
         new_temporal_list.append(new_temporal)
         new_user_list.append(user_list[i])
         new_cpath_list.append(cpath)
-
-    new_temporal_list = time_interpolation(new_temporal_list)
 
     count = 0
     ratio = 0.0
