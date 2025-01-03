@@ -51,8 +51,6 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
         opath = eval(opath_list[i])
         temporal = eval(temporal_list[i])
 
-        # if cpath[0] == cpath[-1]:
-        #     continue
         assert len(opath) == len(temporal)
 
         c_idx = 0
