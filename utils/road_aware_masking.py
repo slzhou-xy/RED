@@ -154,7 +154,7 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
             'align_time': new_temporal_list,
             'key_cpath': short_cpath_list,
             'key_time': short_temporal_list,
-            'mask_cpath': mask_cpath_list,
+            'mask_traj': mask_cpath_list,
         }
     )
 
