@@ -11,7 +11,7 @@ class WordVocab:
             self.mask_index = len(specials)
             specials = specials + ["<mask>"]
 
-        if use_sep:  # this is not used in our model, but we still add it into vocab
+        if use_sep:
             self.sep_index = len(specials)
             specials = specials + ["<sep>"]
 
