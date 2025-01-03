@@ -58,7 +58,7 @@ class TrajPreprocess:
         speed = self.edge['length'].fillna(0)
         speed = self._normalization(speed.to_numpy())
 
-        traval_time = self.edge['traval_time'].fillna(0)
+        traval_time = self.edge['travel_time'].fillna(0)
         traval_time = self._normalization(traval_time.to_numpy())
 
         bearing = self.edge['bearing'].fillna(0)
