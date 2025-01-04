@@ -36,7 +36,7 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
     new_user_list = []
     new_cpath_list = []
 
-    for i in range(len(cpath_list[:10])):
+    for i in range(len(cpath_list)):
         cpath = eval(cpath_list[i])
         opath = eval(opath_list[i])
         temporal = eval(temporal_list[i])
