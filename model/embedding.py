@@ -7,16 +7,16 @@ from model.gnn import GnnEmbedding
 class UserEmbedding(nn.Module):
     def __init__(self, user_size, embed_size):
         super().__init__()
-        self.user_emb = nn.Embedding(num_embeddings=user_size, embedding_dim=embed_size, padding_idx=0)
+        self.user_emb = nn.Embedding(num_embeddings=user_size + 1, embedding_dim=embed_size, padding_idx=0)
 
     def forward(self, x):
         return self.user_emb(x)
 
 
 class ContextEmbedding(nn.Module):
-    def __init__(self, embed_size):
+    def __init__(self, context_size, embed_size):
         super().__init__()
-        self.cte_emb = nn.Embedding(num_embeddings=9, embedding_dim=embed_size, padding_idx=0)
+        self.cte_emb = nn.Embedding(num_embeddings=context_size + 1, embedding_dim=embed_size, padding_idx=0)
 
     def forward(self, x):
         return self.cte_emb(x)
@@ -44,8 +44,7 @@ class SpatialEmbedding(nn.Module):
 
 
 class PositionalEmbedding(nn.Module):
-
-    def __init__(self, d_model, max_len=256):
+    def __init__(self, d_model, max_len=500):
         super().__init__()
         self.d_model = d_model
         # Compute the positional encodings once in log space.
