@@ -1,3 +1,9 @@
+import numpy as np
+import pandas as pd
+from datetime import datetime
+from collections import Counter
+
+
 def time_interpolation(t):
     start = 0
     end = 1
@@ -41,6 +47,8 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
         opath = eval(opath_list[i])
         temporal = eval(temporal_list[i])
 
+        # if cpath[0] == cpath[-1]:
+        #     continue
         assert len(opath) == len(temporal)
 
         c_idx = 0
@@ -76,13 +84,13 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
         mask1 = []
         mask2 = []
         mask3 = []
-        for i in range(len(cpath)):
-            if mask_cpath[i] == -1:
-                mask1.append(i)
-            if edge.iloc[cpath[i]]['length'] < average_length:
-                mask2.append(i)
-            if edge_points[cpath[i]] < average_points:
-                mask3.append(i)
+        for j in range(len(cpath)):
+            if mask_cpath[j] == -1:
+                mask1.append(j)
+            if edge.iloc[cpath[j]]['length'] < average_length:
+                mask2.append(j)
+            if edge_points[cpath[j]] < average_points:
+                mask3.append(j)
 
         masks = list(set(mask1) & (set(mask2) | set(mask3)))
         masks = list(set(masks))
@@ -94,10 +102,10 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
         new_temporal = time_interpolation(new_temporal)
         short_cpath = []
         short_temporal = []
-        for i, path in enumerate(mask_cpath):
+        for j, path in enumerate(mask_cpath):
             if path != -1:
                 short_cpath.append(path)
-                short_temporal.append(new_temporal[i])
+                short_temporal.append(new_temporal[j])
         assert len(short_cpath) == len(short_temporal)
         assert len(cpath) == len(new_temporal) == len(mask_cpath)
 
@@ -154,6 +162,7 @@ def get_mask_traj(traj_df, average_length, edge, average_points, edge_points):
     )
 
     return new_df
+
 
 
 def get_average_points(traj_df, edge):
