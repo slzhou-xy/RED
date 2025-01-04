@@ -87,7 +87,7 @@ class TransformerBlock(nn.Module):
         x = self.norm1(x)
         attn_output = self.self_attn(x, x, x, temporal_mat, dis_mat, mask, lambda2)
         x = x + self.dropout(attn_output)
-        ff_output = self.norm2(x)
+        x = self.norm2(x)
         ff_output = self.feed_forward(x)
         x = x + self.dropout(ff_output)
         return x
