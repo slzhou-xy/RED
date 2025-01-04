@@ -70,7 +70,6 @@ class TrajPreprocess:
         feature = np.concatenate([speed[:, np.newaxis], traval_time[:, np.newaxis],
                                   bearing[:, np.newaxis], out_degree[:, np.newaxis],
                                   in_degree[:, np.newaxis], highway_type], axis=1)
-        # 3 for sep, start, and end, but sep is not used in the model
         special = np.zeros((3, feature.shape[1]))
         feature = np.vstack([special, feature])
         np.save(feature_path, feature)
