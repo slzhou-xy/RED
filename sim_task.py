@@ -43,6 +43,7 @@ config['device'] = 'cuda:0'
 config['vocab_size'] = vocab.vocab_size
 config['user_size'] = vocab.user_num
 config['fea_size'] = node_feature.shape[1]
+config['highway_size'] = traj_preprocess.edge['highway_type'].nunique()
 
 
 traj_dataloader = SimTrajDataLoader(config)

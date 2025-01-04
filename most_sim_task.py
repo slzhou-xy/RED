@@ -35,7 +35,7 @@ config['epochs'] = 30
 config['device'] = 'cuda:0'
 config['vocab_size'] = vocab.vocab_size
 config['user_size'] = vocab.user_num
-config['highway_size'] = traj_preprocess.edge['highway_type'].nunique() + 1
+config['highway_size'] = traj_preprocess.edge['highway_type'].nunique()
 config['fea_size'] = node_feature.shape[1]
 
 
