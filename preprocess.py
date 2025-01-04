@@ -115,9 +115,9 @@ class TrajPreprocess:
         eval_traj = traj.loc[eval_index]
         test_traj = traj.loc[test_index]
 
-        train_traj = self._to_pkl(train_traj, train_traj_path, data_type='train')
-        eval_traj = self._to_pkl(eval_traj, eval_traj_path, data_type='eval')
-        test_traj = self._to_pkl(test_traj, test_traj_path, data_type='test')
+        train_traj = self._to_pkl(train_traj, train_traj_path, data_type='Train')
+        eval_traj = self._to_pkl(eval_traj, eval_traj_path, data_type='Eval ')
+        test_traj = self._to_pkl(test_traj, test_traj_path, data_type='Test ')
         print('Trajectory dataset split finish!')
 
         return train_traj, eval_traj, test_traj
