@@ -3,7 +3,7 @@ import pandas as pd
 
 def add_dis(traj, edge):
     cpath = list(traj.cpath)
-    mask_cpath = list(traj.mask_cpath)
+    mask_cpath = list(traj.mask_traj)
     full_dis_list = []
     short_dis_list = []
 
