@@ -27,10 +27,6 @@ class SimTrainer:
         self.lambda2 = config['lambda2']
         self.data_path = config['data_path']
 
-        # early stop
-        self.early_stop = config['early_stop']
-        self.eval_losses = [torch.inf]
-
         self.node_feature = node_feature
         self.edge_index = edge_index
         self.train_dataloader = train_dataloader
