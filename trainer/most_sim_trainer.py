@@ -63,7 +63,7 @@ class MostSimTrainer:
         if self.dataset == 'rome':
             test_range = [11000, 21000, 31000, 41000]
         else:
-            test_range = [11000, 21000, 51000, 110000]
+            test_range = [11000, 21000, 51000, 101000]
 
         for end in test_range:
             dists = q_emb @ db_emb[:end].T
