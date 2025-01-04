@@ -78,7 +78,7 @@ model = RED(
     dec_emb_dropout=config['dec_emb_dropout'],
     dec_tfm_dropout=config['dec_tfm_dropout'],
     vocab_size=config['vocab_size'],
-    user_size=config['user_size']
+    user_size=config['user_size'],
     context_size=config['highway_size'],
 )
 trainer = REDTrainer(
