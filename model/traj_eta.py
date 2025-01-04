@@ -26,7 +26,8 @@ class TrajETA(nn.Module):
             dec_emb_dropout=config['dec_emb_dropout'],
             dec_tfm_dropout=config['dec_tfm_dropout'],
             vocab_size=config['vocab_size'],
-            user_size=config['user_size']
+            user_size=config['user_size'],
+            context_size=config['highway_size'],
         )
         self.pretraining_model.load_state_dict(torch.load(path))
         self.pre_linear = nn.Linear(config['dec_embed_dim'], 1)
