@@ -44,7 +44,7 @@ class SpatialEmbedding(nn.Module):
 
 
 class PositionalEmbedding(nn.Module):
-    def __init__(self, d_model, max_len=500):
+    def __init__(self, d_model, max_len=512):
         super().__init__()
         self.d_model = d_model
         # Compute the positional encodings once in log space.
