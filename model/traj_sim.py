@@ -26,7 +26,8 @@ class TrajSim(nn.Module):
             dec_emb_dropout=config['dec_emb_dropout'],
             dec_tfm_dropout=config['dec_tfm_dropout'],
             vocab_size=config['vocab_size'],
-            user_size=config['user_size']
+            user_size=config['user_size'],
+            context_size=config['highway_size'],
         )
         self.pretraining_model.load_state_dict(torch.load(path))
         for param in self.pretraining_model.parameters():
