@@ -27,6 +27,7 @@ class TrajCls(nn.Module):
             dec_tfm_dropout=config['dec_tfm_dropout'],
             vocab_size=config['vocab_size'],
             user_size=config['user_size']
+            context_size=config['highway_size'],
         )
         self.pretraining_model.load_state_dict(torch.load(path))
         if config['dataset'] == 'cd' or config['dataset'] == 'big_cd':
