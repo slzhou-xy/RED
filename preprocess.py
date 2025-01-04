@@ -89,7 +89,7 @@ class TrajPreprocess:
             return train_traj, eval_traj, test_traj
 
         traj = pd.read_csv(self.traj_path)
-        if os.path.exists(f'{self.path}/train_index.npy'):
+        if not os.path.exists(f'{self.path}/train_index.npy'):
             rand_index = np.arange(traj.shape[0])
             rand_index = np.random.permutation(rand_index)
             if self.dataset == 'rome':
