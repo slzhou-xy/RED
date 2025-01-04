@@ -37,7 +37,7 @@ class WordVocab:
 
         users = traj['taxi_id'].values
         users = np.unique(users)
-        self.user_num = len(users) + 1
+        self.user_num = len(users)
 
     def to_seq(self, sentence, seq_len=None, with_eos=False, with_sos=False, with_len=False):
         if isinstance(sentence, str):
