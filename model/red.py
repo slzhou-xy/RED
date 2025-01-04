@@ -93,12 +93,13 @@ class RED(nn.Module):
                  dec_tfm_dropout=0.1,
                  vocab_size=30000,
                  user_size=0,
+                 context_size=0,
                  ):
         super().__init__()
 
         # embedding
         self.spe = SpatialEmbedding(fea_size, g_dim_per_layer, g_heads_per_layer, g_depths, g_dropout)
-        self.ce = ContextEmbedding(enc_embed_dim // 2)
+        self.ce = ContextEmbedding(context_size, enc_embed_dim // 2)
         self.ue = UserEmbedding(user_size, enc_embed_dim)
         self.pe = PositionalEmbedding(enc_embed_dim)
 
