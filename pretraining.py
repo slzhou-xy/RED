@@ -51,7 +51,7 @@ edge_index = traj_preprocess.get_graph()
 
 config['vocab_size'] = vocab.vocab_size
 config['user_size'] = vocab.user_num
-config['highway_size'] = traj_preprocess.edge['highway_type'].nunique() + 1
+config['highway_size'] = traj_preprocess.edge['highway_type'].nunique()
 config['fea_size'] = node_feature.shape[1]
 
 traj_dataloader = TrajDataLoader(config)
@@ -79,6 +79,7 @@ model = RED(
     dec_tfm_dropout=config['dec_tfm_dropout'],
     vocab_size=config['vocab_size'],
     user_size=config['user_size']
+    context_size=config['highway_size'],
 )
 trainer = REDTrainer(
     config=config,
