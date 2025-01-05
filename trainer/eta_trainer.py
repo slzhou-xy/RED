@@ -86,7 +86,7 @@ class ETATrainer:
             self.model.train()
             train_loss = self.iteration(epoch, self.train_dataloader, 'Train')
             eval_loss = self.eval(epoch)
-            logger.info(f'=====> Epoch {epoch} | Train loss: {train_loss:.8f} | Eval loss: {eval_loss:.8f}')
+            logger.info(f'Epoch {epoch} | Train loss: {train_loss:.8f} | Eval loss: {eval_loss:.8f}')
 
             if min_loss > eval_loss:
                 min_loss = eval_loss
