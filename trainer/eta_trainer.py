@@ -62,7 +62,7 @@ class ETATrainer:
             enc_data = [data.to(self.device) for data in enc_data]
             eta = eta.to(self.device)
 
-            if iteration_type == 'train':
+            if iteration_type == 'Train':
                 self.optimizer.zero_grad()
                 pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 loss = self.loss_fn(pred, eta)
