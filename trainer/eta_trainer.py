@@ -84,9 +84,9 @@ class ETATrainer:
         min_loss = torch.inf
         for epoch in range(self.epochs):
             self.model.train()
-            train_loss = self.iteration(epoch, self.train_dataloader, 'train')
+            train_loss = self.iteration(epoch, self.train_dataloader, 'Train')
             eval_loss = self.eval(epoch)
-            logger.info(f'=====> avg train loss: {train_loss}  |  avg eval loss: {eval_loss}')
+            logger.info(f'=====> Epoch {epoch} | Train loss: {train_loss:.8f} | Eval loss: {eval_loss:.8f}')
 
             if min_loss > eval_loss:
                 min_loss = eval_loss
@@ -103,7 +103,7 @@ class ETATrainer:
     def eval(self, epoch):
         self.model.eval()
         with torch.no_grad():
-            eval_loss = self.iteration(epoch, self.eval_dataloader, 'eval ')
+            eval_loss = self.iteration(epoch, self.eval_dataloader, 'Eval ')
         return eval_loss
 
     def test(self, best_epoch):
@@ -129,5 +129,5 @@ class ETATrainer:
             preds = np.concatenate(preds, axis=0)
             mae = MAE(labels, preds)
             rmse = RMSE(labels, preds)
-            mape = MAPE(labels, preds)
+            mape = MAPE(labels, preds) * 100
             logger.info(f'mae: {mae}, rmse: {rmse}, mape: {mape}')

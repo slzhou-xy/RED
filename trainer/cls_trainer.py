@@ -90,10 +90,10 @@ class ClsTrainer:
         min_loss = torch.inf
         for epoch in range(self.epochs):
             self.model.train()
-            train_loss = self.iteration(epoch, self.train_dataloader, 'train')
+            train_loss = self.iteration(epoch, self.train_dataloader, 'Train')
 
             eval_loss = self.eval(epoch)
-            logger.info(f'=====> avg train loss: {train_loss}  |  avg eval loss: {eval_loss}')
+            logger.info(f'Epoch {epoch} | Train loss: {train_loss:.8f} | Eval loss: {eval_loss:.8f}')
 
             if min_loss > eval_loss:
                 min_loss = eval_loss
@@ -109,7 +109,7 @@ class ClsTrainer:
 
     def eval(self, epoch):
         self.model.eval()
-        eval_loss = self.iteration(epoch, self.eval_dataloader, 'eval ')
+        eval_loss = self.iteration(epoch, self.eval_dataloader, 'Eval ')
         return eval_loss
 
     def test(self, best_epoch):

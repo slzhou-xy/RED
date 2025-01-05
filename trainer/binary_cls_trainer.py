@@ -93,10 +93,10 @@ class BinaryClsTrainer:
 
         for epoch in range(self.epochs):
             self.model.train()
-            train_loss = self.iteration(epoch, self.train_dataloader, 'train')
+            train_loss = self.iteration(epoch, self.train_dataloader, 'Train')
 
             eval_loss = self.eval(epoch)
-            logger.info(f'=====> avg train loss: {train_loss}  |  avg eval loss: {eval_loss}')
+            logger.info(f'Epoch {epoch} | Train loss: {train_loss:.8f} | Eval loss: {eval_loss:.8f}')
             self.test(epoch)
 
             if min_loss > eval_loss:
@@ -114,7 +114,7 @@ class BinaryClsTrainer:
     def eval(self, epoch):
         self.model.eval()
         with torch.no_grad():
-            eval_loss = self.iteration(epoch, self.eval_dataloader, 'eval ')
+            eval_loss = self.iteration(epoch, self.eval_dataloader, 'Eval ')
         return eval_loss
 
     def test(self, best_epoch):
