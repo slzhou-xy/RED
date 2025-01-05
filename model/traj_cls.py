@@ -33,7 +33,7 @@ class TrajCls(nn.Module):
         if config['dataset'] == 'cd' or config['dataset'] == 'big_cd':
             self.pre_linear = nn.Linear(config['dec_embed_dim'], 2)
         else:
-            self.pre_linear = nn.Linear(config['dec_embed_dim'], config['user_size'])
+            self.pre_linear = nn.Linear(config['dec_embed_dim'], config['user_size'] + 1)  # +1 for padding
         # torch.nn.init.xavier_uniform_(self.pre_linear.weight)
         # torch.nn.init.constant_(self.pre_linear.bias, 0)
 
