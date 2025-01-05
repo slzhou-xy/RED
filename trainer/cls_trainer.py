@@ -50,7 +50,7 @@ class ClsTrainer:
         )
 
         self.scheduler = CosineLRScheduler(optimizer=self.optimizer, t_initial=self.epochs, warmup_t=10, warmup_lr_init=1e-6)
-        self.loss_fn = nn.CrossEntropyLoss(ignore_index=0)
+        self.loss_fn = nn.CrossEntropyLoss(ignore_index=0)  # o for padding of user id
         self.save_path = os.path.join('checkpoints', config['dataset'], config['exp_id'], 'multi_cls')
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
