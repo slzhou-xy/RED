@@ -89,6 +89,10 @@ class BinaryClsTrajDataLoader:
 
     def get_dataloader(self, data, vflag, vocab, type):
         dataset = TrajDataSet(data=data, vflag=vflag)
-        dataloader = DataLoader(dataset, batch_size=self.bz, num_workers=self.num_workers, shuffle=False,
-                                collate_fn=lambda x: self._collate_fn(x, vocab, type))
+        if type == 'train':
+            dataloader = DataLoader(dataset, batch_size=self.bz, num_workers=self.num_workers, shuffle=True,
+                                    collate_fn=lambda x: self._collate_fn(x, vocab, type, pre_len=self.pre_len))
+        else:
+            dataloader = DataLoader(dataset, batch_size=self.bz, num_workers=self.num_workers, shuffle=False,
+                                    collate_fn=lambda x: self._collate_fn(x, vocab, type))
         return dataloader

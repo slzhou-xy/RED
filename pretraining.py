@@ -55,9 +55,9 @@ config['highway_size'] = traj_preprocess.edge['highway_type'].nunique()
 config['fea_size'] = node_feature.shape[1]
 
 traj_dataloader = TrajDataLoader(config)
-train_dataloader = traj_dataloader.get_dataloader(train_data, vocab)
-eval_dataloader = traj_dataloader.get_dataloader(eval_data, vocab)
-test_dataloader = traj_dataloader.get_dataloader(test_data, vocab)
+train_dataloader = traj_dataloader.get_dataloader(train_data, vocab, 'train')
+eval_dataloader = traj_dataloader.get_dataloader(eval_data, vocab, 'eval')
+test_dataloader = traj_dataloader.get_dataloader(test_data, vocab, 'test')
 
 model = RED(
     fea_size=config['fea_size'],

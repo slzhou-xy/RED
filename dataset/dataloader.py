@@ -99,7 +99,7 @@ class TrajDataLoader:
             key_user_id_x[i, 1:cur_key_end] = torch.tensor(key_user_id[i], dtype=torch.long)
 
             y1[i, pre_len:cur_key_end - 1] = torch.tensor(key_traj[i][pre_len:], dtype=torch.long)
-            y1[i, cur_key_end - 1] = vocab.sep_index 
+            y1[i, cur_key_end - 1] = vocab.sep_index
 
             # decoder
             cur_mask_end = mask_len[i]
@@ -138,9 +138,13 @@ class TrajDataLoader:
 
         return enc_data, dec_data, y1, y2
 
-    def get_dataloader(self, data, vocab):
+    def get_dataloader(self, data, vocab, type):
         dataset = TrajDataSet(data=data)
         # shuffle is False, because we have shuffled the data in the preprocessing.
-        dataloader = DataLoader(dataset, batch_size=self.bz, shuffle=False,
-                                collate_fn=lambda x: self._collate_fn(x, vocab, self.pre_len))
+        if type == 'train':
+            dataloader = DataLoader(dataset, batch_size=self.bz, shuffle=True, num_workers=self.num_workers,
+                                    collate_fn=lambda x: self._collate_fn(x, vocab, self.pre_len))
+        else:
+            dataloader = DataLoader(dataset, batch_size=self.bz, shuffle=False, num_workers=self.num_workers,
+                                    collate_fn=lambda x: self._collate_fn(x, vocab, self.pre_len))
         return dataloader
