@@ -90,6 +90,7 @@ class ClsTrainer:
         min_loss = torch.inf
         for epoch in range(self.epochs):
             self.model.train()
+            self.scheduler.step(epoch)
             train_loss = self.iteration(epoch, self.train_dataloader, 'Train')
 
             eval_loss = self.eval(epoch)
@@ -100,7 +101,7 @@ class ClsTrainer:
                 best_epoch = epoch
 
             torch.save(self.model.state_dict(), f'{self.save_path}/cls_{epoch}.pt')
-            self.scheduler.step(epoch + 1)
+            
             train_losses.append(train_loss)
             eval_losses.append(eval_loss)
 

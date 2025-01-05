@@ -84,6 +84,7 @@ class ETATrainer:
         min_loss = torch.inf
         for epoch in range(self.epochs):
             self.model.train()
+            self.scheduler.step(epoch)
             train_loss = self.iteration(epoch, self.train_dataloader, 'Train')
             eval_loss = self.eval(epoch)
             logger.info(f'Epoch {epoch} | Train loss: {train_loss:.8f} | Eval loss: {eval_loss:.8f}')
@@ -92,7 +93,6 @@ class ETATrainer:
                 min_loss = eval_loss
                 best_epoch = epoch
 
-            self.scheduler.step(epoch + 1)
             train_losses.append(train_loss)
             eval_losses.append(eval_loss)
             torch.save(self.model.state_dict(), f'{self.save_path}/eta_{epoch}.pt')
