@@ -56,9 +56,9 @@ class BinaryClsTrainer:
             os.makedirs(self.save_path)
         logger.add(f'{self.save_path}/results.log', mode='w')
 
-    def iteration(self, epoch, dataloader, iteration_type='train'):
+    def iteration(self, epoch, dataloader, iteration_type='Train'):
         losses = []
-        pbar = tqdm(dataloader)
+        pbar = tqdm(dataloader, ncols=100)
 
         for batch_data in pbar:
             enc_data, id_y = batch_data
@@ -121,7 +121,7 @@ class BinaryClsTrainer:
         self.model.load_state_dict(torch.load(f'{self.save_path}/cls_{best_epoch}.pt'))
         self.model.eval()
         with torch.no_grad():
-            pbar = tqdm(self.test_dataloader, desc='Traj inference:')
+            pbar = tqdm(self.test_dataloader, desc='Traj inference:', ncols=100)
             labels = []
             preds = []
             for batch_data in pbar:

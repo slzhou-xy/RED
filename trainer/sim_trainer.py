@@ -43,7 +43,7 @@ class SimTrainer:
     def test(self):
         self.model.eval()
         with torch.no_grad():
-            pbar = tqdm(self.test_dataloader, desc='Traj inference')
+            pbar = tqdm(self.test_dataloader, desc='Traj inference', ncols=100)
             hausdorff_truth = pickle.load(open(f'{self.data_path}/{self.dataset}/hausdorff_sim_test_label.pkl', 'rb'))
             frechet_truth = pickle.load(open(f'{self.data_path}/{self.dataset}/frechet_sim_test_label.pkl', 'rb'))
             assert len(hausdorff_truth) == len(frechet_truth)

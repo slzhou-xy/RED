@@ -44,7 +44,7 @@ class REDTrainer:
 
     def iteration(self, epoch, dataloader, iteration_type):
         losses = []
-        pbar = tqdm(dataloader)
+        pbar = tqdm(dataloader, ncols=100)
         for batch_data in pbar:
             enc_data, dec_data, y1, y2 = batch_data
             enc_data = [data.to(self.device) for data in enc_data]

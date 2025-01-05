@@ -36,7 +36,7 @@ class MostSimTrainer:
     def test(self):
         self.model.eval()
         with torch.no_grad():
-            pbar = tqdm(self.db_dataloader)
+            pbar = tqdm(self.db_dataloader, ncols=100)
             db_emb = []
             for batch_data in pbar:
                 enc_data = batch_data
@@ -47,7 +47,7 @@ class MostSimTrainer:
                 emb = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 db_emb.append(emb)
 
-            pbar = tqdm(self.q_dataloader)
+            pbar = tqdm(self.q_dataloader, ncols=100)
             q_emb = []
             for batch_data in pbar:
                 enc_data = batch_data
