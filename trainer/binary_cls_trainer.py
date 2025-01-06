@@ -127,7 +127,7 @@ class BinaryClsTrainer:
                 enc_data = [data.to(self.device) for data in enc_data]
                 id_y = id_y.to(self.device)
 
-                pred, logits = self.model(node_feature, edge_index, enc_data, self.lambda2)
+                pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 labels.append(id_y.cpu().detach().numpy())
                 preds.append(F.log_softmax(pred).cpu().detach().numpy())
 
