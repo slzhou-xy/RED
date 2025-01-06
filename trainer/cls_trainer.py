@@ -101,7 +101,7 @@ class ClsTrainer:
                 best_epoch = epoch
 
             torch.save(self.model.state_dict(), f'{self.save_path}/cls_{epoch}.pt')
-            
+
             train_losses.append(train_loss)
             eval_losses.append(eval_loss)
 
@@ -130,9 +130,10 @@ class ClsTrainer:
                 id_y = id_y.to(self.device)
 
                 pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
+
                 indices.append(F.log_softmax(pred, dim=-1).topk(5).indices.cpu().detach().numpy())
                 labels.append(id_y.cpu().detach().numpy())
-                preds.append(pred.cpu().detach().numpy())
+                preds.append(F.log_softmax(pred, dim=-1).cpu().detach().numpy())
 
             labels = np.concatenate(labels, axis=0)
             preds = np.argmax(np.concatenate(preds, axis=0), axis=1)
