@@ -26,12 +26,7 @@ class BinaryClsTrainer:
         self.device = config['device']
         self.epochs = config['epochs']
         self.clip = config['clip']
-        self.num_user = config['user_size']
         self.lambda2 = config['lambda2']
-
-        # early stop
-        self.early_stop = config['early_stop']
-        self.eval_losses = [torch.inf]
 
         self.node_feature = node_feature
         self.edge_index = edge_index

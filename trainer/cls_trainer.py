@@ -30,10 +30,6 @@ class ClsTrainer:
         self.num_user = config['user_size']
         self.lambda2 = config['lambda2']
 
-        # early stop
-        self.early_stop = config['early_stop']
-        self.eval_losses = [torch.inf]
-
         self.node_feature = node_feature
         self.edge_index = edge_index
         self.train_dataloader = train_dataloader
@@ -84,8 +80,6 @@ class ClsTrainer:
         return np.array(losses).mean()
 
     def train(self):
-        train_losses = []
-        eval_losses = []
         best_epoch = 0
         min_loss = torch.inf
         for epoch in range(self.epochs):
@@ -101,9 +95,6 @@ class ClsTrainer:
                 best_epoch = epoch
 
             torch.save(self.model.state_dict(), f'{self.save_path}/cls_{epoch}.pt')
-
-            train_losses.append(train_loss)
-            eval_losses.append(eval_loss)
 
         logger.info(f'=====> best epoch: {best_epoch}')
         self.test(best_epoch)

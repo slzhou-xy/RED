@@ -17,8 +17,6 @@ class MostSimTrainer:
         super().__init__()
         self.lr = config['lr']
         self.device = config['device']
-        self.epochs = config['epochs']
-        self.clip = config['clip']
         self.dataset = config['dataset']
         self.lambda2 = config['lambda2']
 
