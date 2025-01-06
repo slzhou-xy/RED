@@ -7,7 +7,7 @@ import torch
 class Date2vec(nn.Module):
     def __init__(self):
         super(Date2vec, self).__init__()
-        self.d2v = Date2VecConvert(model_path="./d2v_model/d2v_98291_17.169918439404636.pth")
+        self.d2v = Date2VecConvert(model_path="./d2v_model/d2v_64dim.pth")
 
     def forward(self, time_seq):
         one_list = []
