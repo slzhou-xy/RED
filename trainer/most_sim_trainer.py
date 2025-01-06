@@ -69,4 +69,4 @@ class MostSimTrainer:
             dists = q_emb @ db_emb[:end].T
             targets = torch.diag(dists)  # [1000]
             result = torch.sum(torch.ge(dists.T, targets)).item() / q_emb.shape[0]
-            logger.info(f'MR@{q_emb.shape[0]}/{end} {result}')
+            logger.info(f'MR@{q_emb.shape[0]}/{end} {result:.6f}')

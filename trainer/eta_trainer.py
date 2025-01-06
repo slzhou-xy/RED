@@ -130,4 +130,4 @@ class ETATrainer:
             mae = MAE(labels, preds)
             rmse = RMSE(labels, preds)
             mape = MAPE(labels, preds) * 100
-            logger.info(f'mae: {mae}, rmse: {rmse}, mape: {mape}')
+            logger.info(f'mae: {mae:.6f}, rmse: {rmse:.6f}, mape: {mape:.6f}')

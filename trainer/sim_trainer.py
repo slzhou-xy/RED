@@ -74,7 +74,7 @@ class SimTrainer:
             rank[start:end] = sim[:, :50]
         rank = rank.cpu().numpy()
         res = HR(hausdorff_truth, rank, [1, 5, 10, 20, 50])
-        logger.info(f'Hausdorff distance HR {res}')
+        logger.info(f'Hausdorff distance HR {res:.6f}')
 
         res = HR(frechet_truth, rank, [1, 5, 10, 20, 50])
-        logger.info(f'Frechet distance HR {res}')
+        logger.info(f'Frechet distance HR {res:.6f}')

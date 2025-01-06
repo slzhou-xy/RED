@@ -142,4 +142,4 @@ class ClsTrainer:
             recall_5 = Cls_HR(labels, indices)
 
             micro_f1, macro_f1 = F1(labels, preds, self.num_user)
-            logger.info(f'micro_f1: {micro_f1}, macro_f1: {macro_f1}, recall@5: {recall_5}')
+            logger.info(f'micro_f1: {micro_f1:.6f}, macro_f1: {macro_f1:.6f}, recall@5: {recall_5:.6f}')

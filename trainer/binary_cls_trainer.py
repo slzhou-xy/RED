@@ -105,7 +105,7 @@ class BinaryClsTrainer:
                 best_epoch = epoch
 
             torch.save(self.model.state_dict(), f'{self.save_path}/cls_{epoch}.pt')
-            
+
             train_losses.append(train_loss)
             eval_losses.append(eval_loss)
 
@@ -149,8 +149,7 @@ class BinaryClsTrainer:
             intermediate_result['pred'] = preds
             intermediate_result['truth'] = truth
 
-            result = {}
-            result['Accuracy'] = accuracy_score(intermediate_result['truth'], intermediate_result['pred'])
-            result['Precision'] = precision_score(intermediate_result['truth'], intermediate_result['pred'])
-            result['F1'] = f1_score(intermediate_result['truth'], intermediate_result['pred'])
-            logger.info(result)
+            accuracy = accuracy_score(intermediate_result['truth'], intermediate_result['pred'])
+            precision = precision_score(intermediate_result['truth'], intermediate_result['pred'])
+            f1 = f1_score(intermediate_result['truth'], intermediate_result['pred'])
+            logger.info(f'Accuracy: {accuracy::.6f}, Precision: {precision::.6f}, F1: {f1::.6f}')
