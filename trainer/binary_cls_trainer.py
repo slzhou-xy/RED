@@ -93,7 +93,6 @@ class BinaryClsTrainer:
 
             eval_loss = self.eval(epoch)
             logger.info(f'Epoch {epoch} | Train loss: {train_loss:.8f} | Eval loss: {eval_loss:.8f}')
-            self.test(epoch)
 
             if min_loss > eval_loss:
                 min_loss = eval_loss
