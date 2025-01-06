@@ -49,7 +49,7 @@ class BinaryClsTrainer:
         )
 
         self.scheduler = CosineLRScheduler(optimizer=self.optimizer, t_initial=self.epochs, warmup_t=10, warmup_lr_init=1e-6)
-        self.loss_fn = nn.BCEWithLogitsLoss()
+        self.loss_fn = nn.CrossEntropyLoss()
 
         self.save_path = os.path.join('checkpoints', config['dataset'], config['exp_id'], 'binary_cls')
         if not os.path.exists(self.save_path):
@@ -72,7 +72,7 @@ class BinaryClsTrainer:
                 self.optimizer.zero_grad()
 
                 pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
-                loss = self.loss_fn(pred.reshape(-1), id_y.float())
+                loss = self.loss_fn(pred, id_y)
 
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.clip)
@@ -80,7 +80,7 @@ class BinaryClsTrainer:
 
             else:
                 pred = self.model(node_feature, edge_index, enc_data, self.lambda2)
-                loss = self.ce1(pred.reshape(-1), id_y.float())
+                loss = self.loss_fn(pred, id_y)
             pbar.set_description('[{} Epoch {}/{}: loss: %f]'.format(iteration_type, str(epoch), str(self.epochs)) % loss)
             losses.append(loss.item())
         return np.array(losses).mean()
@@ -135,21 +135,18 @@ class BinaryClsTrainer:
 
                 pred, logits = self.model(node_feature, edge_index, enc_data, self.lambda2)
                 labels.append(id_y.cpu().detach().numpy())
-                preds.append(F.sigmoid(pred).cpu().detach().numpy())
+                preds.append(F.log_softmax(pred).cpu().detach().numpy())
 
             labels = np.concatenate(labels, axis=0)
             preds = np.concatenate(preds, axis=0)
-            preds = np.where(preds > 0.5, 1, 0)
+            preds = np.argmax(preds, axis=-1)
 
             preds = list(preds)
             truth = list(labels)
 
             assert len(preds) == len(truth)
-            intermediate_result = {}
-            intermediate_result['pred'] = preds
-            intermediate_result['truth'] = truth
 
-            accuracy = accuracy_score(intermediate_result['truth'], intermediate_result['pred'])
-            precision = precision_score(intermediate_result['truth'], intermediate_result['pred'])
-            f1 = f1_score(intermediate_result['truth'], intermediate_result['pred'])
+            accuracy = accuracy_score(truth, preds)
+            precision = precision_score(truth, preds)
+            f1 = f1_score(truth, preds)
             logger.info(f'Accuracy: {accuracy::.6f}, Precision: {precision::.6f}, F1: {f1::.6f}')

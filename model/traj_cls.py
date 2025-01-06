@@ -34,8 +34,6 @@ class TrajCls(nn.Module):
             self.pre_linear = nn.Linear(config['dec_embed_dim'], 2)
         else:
             self.pre_linear = nn.Linear(config['dec_embed_dim'], config['user_size'] + 1)  # +1 for padding
-        # torch.nn.init.xavier_uniform_(self.pre_linear.weight)
-        # torch.nn.init.constant_(self.pre_linear.bias, 0)
 
     def forward(self, node_feature, edge_index, enc_data, lambda2):
         traj_x, temporal_x, user_id_x, mask, end_idx, idx_without_end, temporal_mat_x, dis_mat_x, highway_x = enc_data
