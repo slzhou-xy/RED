@@ -140,7 +140,6 @@ class TrajDataLoader:
 
     def get_dataloader(self, data, vocab, type):
         dataset = TrajDataSet(data=data)
-        # shuffle is False, because we have shuffled the data in the preprocessing.
         if type == 'train':
             dataloader = DataLoader(dataset, batch_size=self.bz, shuffle=True, num_workers=self.num_workers,
                                     collate_fn=lambda x: self._collate_fn(x, vocab, self.pre_len))
