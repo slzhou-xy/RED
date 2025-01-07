@@ -143,4 +143,4 @@ class BinaryClsTrainer:
             accuracy = accuracy_score(truth, preds)
             precision = precision_score(truth, preds)
             f1 = f1_score(truth, preds)
-            logger.info(f'Accuracy: {accuracy::.6f}, Precision: {precision::.6f}, F1: {f1::.6f}')
+            logger.info(f'Accuracy: {accuracy:.6f}, Precision: {precision:.6f}, F1: {f1:.6f}')
