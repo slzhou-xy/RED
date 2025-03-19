@@ -33,18 +33,16 @@ class BinaryClsTrajDataLoader:
         self.num_workers = config['num_workers']
 
     def _collate_fn(self, batch_data, vocab, type, pre_len=0):
-        # 和simple是一样，只是输出取的embedding位置不一样
         bz = len(batch_data)
         vflag = [d[1] for d in batch_data]
         batch_data = [d[0] for d in batch_data]
         full_data = [data[0] for data in batch_data]
 
-        user_id, mask_traj, traj, temporal, temporal_vec, temporal_mat, dis_mat, highway = zip(*full_data)
+        user_id, _, traj, _, temporal_vec, temporal_mat, dis_mat, highway = zip(*full_data)
 
         traj_len = [len(t) for t in traj]
         max_traj_len = max(traj_len) + 2
 
-        # tensor data
         traj_x = torch.zeros(size=(bz, max_traj_len), dtype=torch.long)
         highway_x = torch.zeros_like(traj_x, dtype=torch.long)
         user_id_x = torch.zeros_like(traj_x, dtype=torch.long)
