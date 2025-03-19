@@ -55,8 +55,11 @@ class TrajPreprocess:
         if os.path.exists(feature_path):
             return np.load(file=feature_path)
 
-        speed = self.edge['length'].fillna(0)
+        speed = self.edge['maxspeed'].fillna(0)
         speed = self._normalization(speed.to_numpy())
+
+        length = self.edge['length'].fillna(0)
+        length = self._normalization(length.to_numpy())
 
         traval_time = self.edge['travel_time'].fillna(0)
         traval_time = self._normalization(traval_time.to_numpy())
@@ -67,8 +70,11 @@ class TrajPreprocess:
         out_degree = self.edge['out_degree'].to_numpy()
         in_degree = self.edge['in_degree'].to_numpy()
         highway_type = pd.get_dummies(self.edge['highway_type']).to_numpy()
-        feature = np.concatenate([speed[:, np.newaxis], traval_time[:, np.newaxis],
-                                  bearing[:, np.newaxis], out_degree[:, np.newaxis],
+        feature = np.concatenate([speed[:, np.newaxis], 
+                                  length[:, np.newaxis], 
+                                  traval_time[:, np.newaxis],
+                                  bearing[:, np.newaxis], 
+                                  out_degree[:, np.newaxis],
                                   in_degree[:, np.newaxis], highway_type], axis=1)
         special = np.zeros((3, feature.shape[1]))
         feature = np.vstack([special, feature])
