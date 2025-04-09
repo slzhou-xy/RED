@@ -57,13 +57,13 @@ You can pre-train **RED** through the following commands：
 
 ```shell
 # Porto
-python main.py --exp_id <set_exp_id> --dataset porto --device 0 --lr 1e-4 --batch_size 64 --epochs 10 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
+python pretraining.py --exp_id <set_exp_id> --dataset porto --device 0 --lr 1e-4 --batch_size 64 --epochs 10 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
 
 # Chengdu 
-python main.py --exp_id <set_exp_id> --dataset cd --device 0 --lr 1e-4 --batch_size 32 --epochs 5 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
+python pretraining.py --exp_id <set_exp_id> --dataset cd --device 0 --lr 1e-4 --batch_size 32 --epochs 5 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
 
 # Rome
-python main.py --exp_id <set_exp_id> --dataset rome --device 0 --lr 2e-4 --batch_size 32 --epochs 30 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
+python pretraining.py --exp_id <set_exp_id> --dataset rome --device 0 --lr 2e-4 --batch_size 32 --epochs 30 --g_depths 3 --g_heads_per_layer [8,16,1] --g_dim_per_layer [16,16,128] --g_dropout 0.1 --enc_embed_dim 128 --enc_ffn_dim 512 --enc_depths 6 --enc_num_heads 8 --enc_emb_dropout 0.1 --enc_tfm_dropout 0.1 --dec_embed_dim 128 --dec_ffn_dim 512 --dec_depths 6 --dec_num_heads 8 --dec_emb_dropout 0.1 --dec_tfm_dropout 0.1 --lambda1 0.1 --lambda2 0.5
 ```
 
  ## Fine-tune
